@@ -31,6 +31,7 @@ my %WriteMakefileArgs = (
     "Tickit::Widget::Scroller" => "0.12",
     "Tickit::Widget::SegmentDisplay" => "0.01",
     "Tickit::Widget::SparkLine" => "0.001",
+    "Tickit::Widget::Statusbar" => "0.001",
     "Tickit::Widget::Tabbed" => "0.010",
     "Tickit::Widget::Table" => "0.100",
     "Tickit::Widget::Tree" => "0.002",
@@ -47,7 +48,7 @@ my %WriteMakefileArgs = (
     "Test::Refcount" => "0.07",
     "blib" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }

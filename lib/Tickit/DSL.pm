@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -24,7 +24,7 @@ version 0.001
 
 =head1 DESCRIPTION
 
-WARNING: This is the first version, has an experimental API, and is
+WARNING: This is an early version, has an experimental API, and is
 subject to change in future. Please get in contact and/or wait for 1.0 if you want something stable.
 
 Provides a simplified interface for writing Tickit applications. This is
@@ -99,6 +99,7 @@ use Tickit::Widget::SegmentDisplay;
 use Tickit::Widget::SparkLine;
 use Tickit::Widget::Spinner;
 use Tickit::Widget::Static;
+use Tickit::Widget::Statusbar;
 use Tickit::Widget::Tabbed;
 use Tickit::Widget::Table;
 use Tickit::Widget::Tree;
@@ -106,7 +107,6 @@ use Tickit::Widget::VBox;
 use Tickit::Widget::VSplit;
 
 # Not on CPAN yet...
-# use Tickit::Widget::Statusbar;
 # use Tickit::Widget::Table::Paged;
 
 use List::UtilsBy qw(extract_by);
