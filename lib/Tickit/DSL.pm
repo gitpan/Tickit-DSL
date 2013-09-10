@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -369,7 +369,7 @@ something like a container, see L</gridbox> for details.
 sub gridrow(&@) {
 	my ($code) = @_;
 	die "Grid rows must be in a gridbox" unless $PARENT->isa('Tickit::Widget::GridBox');
-	apply_widget($code->($PARENT));
+	$code->($PARENT);
 	$GRID_COL = 0;
 	++$GRID_ROW;
 }

@@ -18,7 +18,6 @@ my %WriteMakefileArgs = (
   "DISTNAME" => "Tickit-DSL",
   "EXE_FILES" => [],
   "LICENSE" => "perl",
-  "MIN_PERL_VERSION" => "5.010001",
   "NAME" => "Tickit::DSL",
   "PREREQ_PM" => {
     "Future" => "0.15",
@@ -41,14 +40,14 @@ my %WriteMakefileArgs = (
     "parent" => 0
   },
   "TEST_REQUIRES" => {
-    "Capture::Tiny" => 0,
+    "IO::Handle" => 0,
+    "IPC::Open3" => 0,
     "Test::CheckDeps" => "0.006",
     "Test::Fatal" => "0.010",
     "Test::More" => "0.98",
-    "Test::Refcount" => "0.07",
-    "blib" => 0
+    "Test::Refcount" => "0.07"
   },
-  "VERSION" => "0.002",
+  "VERSION" => "0.003",
   "test" => {
     "TESTS" => "t/*.t"
   }
