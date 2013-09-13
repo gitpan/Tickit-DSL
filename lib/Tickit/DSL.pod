@@ -14,7 +14,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -224,6 +224,19 @@ instance:
  hsplit {
    ...
  } classes => [qw(other hsplit)], style => { fg => 'green' };
+
+=head2 scrollbox
+
+Creates a L<Tickit::Widget::ScrollBox>. This is a container, so the first
+parameter is a coderef which will switch the current parent to the new
+widget. Note that this widget expects a single child widget only.
+
+Any additional parameters will be passed to the new L<Tickit::Widget::ScrollBox>
+instance:
+
+ scrollbox {
+   ...
+ } class => 'some_hsplit';
 
 =head2 scroller
 

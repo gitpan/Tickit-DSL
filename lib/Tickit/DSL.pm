@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -129,6 +129,7 @@ our @EXPORT = our @EXPORT_OK = qw(
 	vsplit hsplit
 	static entry
 	scroller scroller_text
+	scrollbox
 	tabbed
 	tree
 	table
@@ -429,6 +430,36 @@ sub hsplit(&@) {
 		Tickit::Widget::HSplit->new(
 			top_child    => $PENDING_CHILD[0],
 			bottom_child => $PENDING_CHILD[1],
+			%args
+		);
+	};
+	apply_widget($w);
+}
+
+=head2 scrollbox
+
+Creates a L<Tickit::Widget::ScrollBox>. This is a container, so the first
+parameter is a coderef which will switch the current parent to the new
+widget. Note that this widget expects a single child widget only.
+
+Any additional parameters will be passed to the new L<Tickit::Widget::ScrollBox>
+instance:
+
+ scrollbox {
+   ...
+ } class => 'some_hsplit';
+
+=cut
+
+sub scrollbox(&@) {
+	my ($code, %args) = @_;
+	my $w = do {
+		local $PARENT = 'Tickit::Widget::ScrollBox';
+		local @PENDING_CHILD;
+		$code->();
+		
+		Tickit::Widget::ScrollBox->new(
+			child => $PENDING_CHILD[0],
 			%args
 		);
 	};
@@ -741,6 +772,8 @@ sub apply_widget {
 		} elsif($PARENT->isa('Tickit::Widget::HSplit')) {
 			push @PENDING_CHILD, $w;
 		} elsif($PARENT->isa('Tickit::Widget::VSplit')) {
+			push @PENDING_CHILD, $w;
+		} elsif($PARENT->isa('Tickit::Widget::ScrollBox')) {
 			push @PENDING_CHILD, $w;
 		} elsif($PARENT->isa('Tickit::Widget::Tabbed')) {
 			$PARENT->add_tab($w, @WIDGET_ARGS);
