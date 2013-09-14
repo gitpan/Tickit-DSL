@@ -260,18 +260,19 @@ A text item, expects to be added to a L</scroller>.
 =head2 tabbed
 
 Creates a L<Tickit::Widget::Tabbed> instance. Use the L</widget> wrapper
-to set the label when adding new tabs.
+to set the label when adding new tabs, or provide the
+label as a parent: attribute:
 
  tabbed {
    widget { static 'some text' } label => 'first tab';
-   widget { static 'other text' } label => 'second tab';
+   static 'other text' 'parent:label' => 'second tab';
  };
 
 If you want a different ribbon, pass it like so:
 
  tabbed {
-   widget { static 'some text' } label => 'first tab';
-   widget { static 'other text' } label => 'second tab';
+   static 'some text' 'parent:label' => 'first tab';
+   static 'other text' 'parent:label' => 'second tab';
  } ribbon_class => 'Some::Ribbon::Class', tab_position => 'top';
 
 The C<ribbon_class> parameter may be undocumented.
@@ -310,7 +311,7 @@ so there aren't many options.
  placeholder;
  vbox {
    widget { placeholder } expand => 3;
-   widget { placeholder } expand => 5;
+   placeholder 'parent:expand' => 5;
  };
 
 =head2 menubar
@@ -374,6 +375,16 @@ in context, this would be:
  vbox {
    widget { static => '33%' } expand => 1;
    widget { static => '66%' } expand => 2;
+ };
+
+Note that this functionality can also be applied
+by passing attributes with the C<parent:> prefix
+o the widgets themselves - the above example would
+thus be:
+
+ vbox {
+   static => '33%' 'parent:expand' => 1;
+   static => '66%' 'parent:expand' => 2;
  };
 
 =head2 apply_widget
