@@ -14,7 +14,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.004
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -312,6 +312,22 @@ so there aren't many options.
  vbox {
    widget { placeholder } expand => 3;
    placeholder 'parent:expand' => 5;
+ };
+
+This is also available under the alias C<placegrid>.
+
+=head2 placegrid
+
+An alias for L</placeholder>.
+
+=head2 decoration
+
+Purely decorative. A L<Tickit::Widget::Decoration>, controlled entirely through styles.
+
+ decoration;
+ vbox {
+   widget { decoration } expand => 3;
+   decoration class => 'deco1', 'parent:expand' => 5;
  };
 
 =head2 menubar

@@ -24,6 +24,7 @@ my %WriteMakefileArgs = (
     "List::UtilsBy" => 0,
     "Mixin::Event::Dispatch" => "1.000",
     "Tickit" => "0.37",
+    "Tickit::Widget::Decoration" => "0.001",
     "Tickit::Widget::Menu" => "0.05",
     "Tickit::Widget::Progressbar" => "0.002",
     "Tickit::Widget::ScrollBox" => "0.01",
@@ -44,10 +45,9 @@ my %WriteMakefileArgs = (
     "IPC::Open3" => 0,
     "Test::CheckDeps" => "0.006",
     "Test::Fatal" => "0.010",
-    "Test::More" => "0.98",
-    "Test::Refcount" => "0.07"
+    "Test::More" => "0.98"
   },
-  "VERSION" => "0.005",
+  "VERSION" => "0.006",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -8,7 +8,6 @@ build_requires:
   Test::CheckDeps: 0.006
   Test::Fatal: 0.010
   Test::More: 0.98
-  Test::Refcount: 0.07
   perl: 5.010001
 configure_requires:
   ExtUtils::MakeMaker: 6.48
@@ -24,6 +23,7 @@ requires:
   List::UtilsBy: 0
   Mixin::Event::Dispatch: 1.000
   Tickit: 0.37
+  Tickit::Widget::Decoration: 0.001
   Tickit::Widget::Menu: 0.05
   Tickit::Widget::Progressbar: 0.002
   Tickit::Widget::ScrollBox: 0.01
@@ -41,4 +41,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Tickit-DSL
   homepage: http://search.cpan.org/dist/Tickit-DSL/
-version: 0.005
+version: 0.006

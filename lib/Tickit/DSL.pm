@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.004
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -81,6 +81,7 @@ use Tickit::Widget::Border;
 use Tickit::Widget::Box;
 use Tickit::Widget::Button;
 use Tickit::Widget::CheckButton;
+use Tickit::Widget::Decoration;
 use Tickit::Widget::Entry;
 use Tickit::Widget::Frame;
 use Tickit::Widget::GridBox;
@@ -133,7 +134,7 @@ our @EXPORT = our @EXPORT_OK = qw(
 	tabbed
 	tree
 	table
-	placeholder
+	placeholder placegrid decoration
 	statusbar
 	menubar submenu menuitem menuspacer
 );
@@ -640,13 +641,42 @@ so there aren't many options.
    placeholder 'parent:expand' => 5;
  };
 
+This is also available under the alias C<placegrid>.
+
 =cut
 
 sub placeholder(@) {
 	my %args = @_;
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
 	local @WIDGET_ARGS = %parent_args;
-	apply_widget(Tickit::Widget::Placegrid->new);
+	apply_widget(Tickit::Widget::Placegrid->new(%args));
+}
+
+=head2 placegrid
+
+An alias for L</placeholder>.
+
+=cut
+
+sub placegrid(@) { goto \&placeholder }
+
+=head2 decoration
+
+Purely decorative. A L<Tickit::Widget::Decoration>, controlled entirely through styles.
+
+ decoration;
+ vbox {
+   widget { decoration } expand => 3;
+   decoration class => 'deco1', 'parent:expand' => 5;
+ };
+
+=cut
+
+sub decoration(@) {
+	my %args = @_;
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	local @WIDGET_ARGS = %parent_args;
+	apply_widget(Tickit::Widget::Decoration->new(%args));
 }
 
 =head2 menubar
