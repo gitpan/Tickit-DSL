@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 
@@ -87,6 +87,7 @@ use Tickit::Widget::Frame;
 use Tickit::Widget::GridBox;
 use Tickit::Widget::HBox;
 use Tickit::Widget::HSplit;
+use Tickit::Widget::Layout::Relative;
 use Tickit::Widget::Menu;
 use Tickit::Widget::MenuBar;
 use Tickit::Widget::Menu::Item;
@@ -103,12 +104,10 @@ use Tickit::Widget::Static;
 use Tickit::Widget::Statusbar;
 use Tickit::Widget::Tabbed;
 use Tickit::Widget::Table;
+use Tickit::Widget::Table::Paged;
 use Tickit::Widget::Tree;
 use Tickit::Widget::VBox;
 use Tickit::Widget::VSplit;
-
-# Not on CPAN yet...
-# use Tickit::Widget::Table::Paged;
 
 use List::UtilsBy qw(extract_by);
 
@@ -125,19 +124,17 @@ our @EXPORT = our @EXPORT_OK = qw(
 	tickit later loop
 	widget customwidget
 	add_widgets
-	gridbox gridrow
-	vbox hbox
-	vsplit hsplit
+	gridbox gridrow vbox hbox vsplit hsplit relative pane
 	static entry
-	scroller scroller_text
-	scrollbox
+	scroller scroller_text scrollbox
 	tabbed
-	tree
-	table
+	tree table
 	placeholder placegrid decoration
 	statusbar
 	menubar submenu menuitem menuspacer
 );
+
+=head1 METHODS
 
 =head2 import
 
@@ -191,9 +188,10 @@ sub import {
 	}
     $class->export_to_level(1, $class, @_);
 }
-=head1 FUNCTIONS
 
-All of these are exported unless otherwise noted.
+=head1 FUNCTIONS - Utility
+
+All functions are exported, unless otherwise noted.
 
 =cut
 
@@ -264,10 +262,14 @@ sub add_widgets(&@) {
 	my $code = shift;
 	my %args = @_;
 	local $PARENT = delete $args{under} or die 'expected add_widgets { ... } under => $some_widget;';
-	local @WIDGET_ARGS = %args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %args);
 	$code->($PARENT);
 	$PARENT;
 }
+
+=head1 FUNCTIONS - Layout
+
+The following functions create/manage widgets which are useful for layout purposes.
 
 =head2 vbox
 
@@ -295,7 +297,7 @@ sub vbox(&@) {
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -330,7 +332,7 @@ sub vsplit(&@) {
 			%args,
 		);
 	};
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -363,7 +365,7 @@ sub gridbox(&@) {
 		local $GRID_ROW = 0;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -408,7 +410,7 @@ sub hbox(&@) {
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -443,9 +445,47 @@ sub hsplit(&@) {
 			%args
 		);
 	};
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
+
+=head2 relative
+
+See L</pane> for the details.
+
+=cut
+
+sub relative(&@) {
+	my ($code, %args) = @_;
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::Layout::Relative->new(%args);
+	{
+		local $PARENT = $w;
+		$code->($w);
+	}
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+	apply_widget($w);
+}
+
+=head2 pane
+
+A pane in a L</relative> layout.
+
+=cut
+
+sub pane(&@) {
+	my ($code, %args) = @_;
+	die "pane should be used within a relative { ... } item" unless $PARENT->isa('Tickit::Widget::Layout::Relative');
+	{
+		local @WIDGET_ARGS = (@WIDGET_ARGS, %args);
+		$code->($PARENT);
+	}
+}
+
+=head1 FUNCTIONS - Scrolling
+
+The following functions create/manage widgets which deal with data that wouldn't
+normally fit in the available terminal space.
 
 =head2 scrollbox
 
@@ -475,7 +515,7 @@ sub scrollbox(&@) {
 			%args
 		);
 	};
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -504,7 +544,7 @@ sub scroller(&@) {
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -518,6 +558,10 @@ sub scroller_text {
 	my $w = Tickit::Widget::Scroller::Item::Text->new(shift // '');
 	apply_widget($w);
 }
+
+=head1 FUNCTIONS - Miscellaneous container
+
+These act as containers.
 
 =head2 tabbed
 
@@ -549,7 +593,7 @@ sub tabbed(&@) {
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -567,7 +611,7 @@ sub statusbar(&@) {
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -590,7 +634,7 @@ sub static {
 	my $w = Tickit::Widget::Static->new(
 		%args
 	);
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -610,7 +654,7 @@ sub entry(&@) {
 	my $w = Tickit::Widget::Entry->new(
 		%args
 	);
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -626,7 +670,7 @@ sub tree(&@) {
 	my $w = Tickit::Widget::Tree->new(
 		%args
 	);
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -648,7 +692,7 @@ This is also available under the alias C<placegrid>.
 sub placeholder(@) {
 	my %args = @_;
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget(Tickit::Widget::Placegrid->new(%args));
 }
 
@@ -675,9 +719,13 @@ Purely decorative. A L<Tickit::Widget::Decoration>, controlled entirely through 
 sub decoration(@) {
 	my %args = @_;
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget(Tickit::Widget::Decoration->new(%args));
 }
+
+=head2 FUNCTIONS - Menu-related
+
+Things for menus
 
 =head2 menubar
 
@@ -704,7 +752,7 @@ sub menubar(&@) {
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -726,7 +774,7 @@ sub submenu {
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = %parent_args;
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
 
@@ -757,6 +805,10 @@ sub menuitem {
 	apply_widget($w);
 }
 
+=head2 FUNCTIONS - Generic or internal use
+
+Things that don't really fit into the other categories.
+
 =head2 customwidget
 
 A generic function for adding 'custom' widgets - i.e. anything that's not already
@@ -780,7 +832,7 @@ sub customwidget(&@) {
 	local $PARENT = delete($args{parent}) || $PARENT;
 	my $w = $code->($PARENT);
 	{
-		local @WIDGET_ARGS = %args;
+		local @WIDGET_ARGS = (@WIDGET_ARGS, %args);
 		apply_widget($w);
 	}
 }
@@ -816,11 +868,10 @@ thus be:
 =cut
 
 sub widget(&@) {
-	my ($code, @args) = @_;
-	my %args = @args;
+	my ($code, %args) = @_;
 	local $PARENT = delete($args{parent}) || $PARENT;
 	{
-		local @WIDGET_ARGS = @args;
+		local @WIDGET_ARGS = (@WIDGET_ARGS, %args);
 		$code->($PARENT);
 	}
 }
@@ -877,6 +928,8 @@ __END__
 
 =item * L<Tickit::Widget::CheckButton>
 
+=item * L<Tickit::Widget::Decoration>
+
 =item * L<Tickit::Widget::Entry>
 
 =item * L<Tickit::Widget::Frame>
@@ -886,6 +939,8 @@ __END__
 =item * L<Tickit::Widget::HBox>
 
 =item * L<Tickit::Widget::HSplit>
+
+=item * L<Tickit::Widget::Layout::Relative>
 
 =item * L<Tickit::Widget::Menu>
 

@@ -14,7 +14,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 
@@ -77,6 +77,8 @@ mainly intended for prototyping:
  };
  tickit->run;
 
+=head1 METHODS
+
 =head2 import
 
 By default we'll import all the known widget shortcuts. To override this, pass a list
@@ -108,6 +110,10 @@ This is not:
  use Tickit::DSL qw(:sync);
  use Tickit::DSL qw(:async); # will raise an exception
 
+=head1 FUNCTIONS - Utility
+
+All functions are exported, unless otherwise noted.
+
 =head2 loop
 
 Returns the L<IO::Async::Loop> instance if we're in C< :async > mode, throws an
@@ -138,6 +144,10 @@ Adds some widgets under an existing widget.
  } under => $some_widget;
 
 Returns the widget we added the new widgets under (i.e. the C< under > parameter).
+
+=head1 FUNCTIONS - Layout
+
+The following functions create/manage widgets which are useful for layout purposes.
 
 =head2 vbox
 
@@ -225,6 +235,19 @@ instance:
    ...
  } classes => [qw(other hsplit)], style => { fg => 'green' };
 
+=head2 relative
+
+See L</pane> for the details.
+
+=head2 pane
+
+A pane in a L</relative> layout.
+
+=head1 FUNCTIONS - Scrolling
+
+The following functions create/manage widgets which deal with data that wouldn't
+normally fit in the available terminal space.
+
 =head2 scrollbox
 
 Creates a L<Tickit::Widget::ScrollBox>. This is a container, so the first
@@ -256,6 +279,10 @@ Passes any additional args to the constructor:
 =head2 scroller_text
 
 A text item, expects to be added to a L</scroller>.
+
+=head1 FUNCTIONS - Miscellaneous container
+
+These act as containers.
 
 =head2 tabbed
 
@@ -330,6 +357,10 @@ Purely decorative. A L<Tickit::Widget::Decoration>, controlled entirely through 
    decoration class => 'deco1', 'parent:expand' => 5;
  };
 
+=head2 FUNCTIONS - Menu-related
+
+Things for menus
+
 =head2 menubar
 
 Menubar courtesy of L<Tickit::Widget::MenuBar>. Every self-respecting app wants
@@ -359,6 +390,10 @@ Adds a spacer if you're in a menu. No idea what it'd do if you're not in a menu.
 =head2 menuitem
 
 A menu is not much use without something in it. See L</menubar>.
+
+=head2 FUNCTIONS - Generic or internal use
+
+Things that don't really fit into the other categories.
 
 =head2 customwidget
 
@@ -421,6 +456,8 @@ Not exported.
 
 =item * L<Tickit::Widget::CheckButton>
 
+=item * L<Tickit::Widget::Decoration>
+
 =item * L<Tickit::Widget::Entry>
 
 =item * L<Tickit::Widget::Frame>
@@ -430,6 +467,8 @@ Not exported.
 =item * L<Tickit::Widget::HBox>
 
 =item * L<Tickit::Widget::HSplit>
+
+=item * L<Tickit::Widget::Layout::Relative>
 
 =item * L<Tickit::Widget::Menu>
 

@@ -1,5 +1,15 @@
 Revision history for Tickit-DSL
 
+0.007     2013-09-15 16:40:15 Europe/London
+	Features:
+	* Support the ::Layout::Relative widget
+
+	Bug fixes:
+	* Make sure widget arguments are propagated where appropriate
+
+	Documentation:
+	* Add section headings to divide the widget functions by purpose
+
 0.006     2013-09-14 23:57:33 Europe/London
 	Features:
 	* Support the ::Decoration widget
