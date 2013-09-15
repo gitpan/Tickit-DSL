@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 SYNOPSIS
 
@@ -121,7 +121,7 @@ our $GRID_COL;
 our $GRID_ROW;
 
 our @EXPORT = our @EXPORT_OK = qw(
-	tickit later loop
+	tickit later timer loop
 	widget customwidget
 	add_widgets
 	gridbox gridrow vbox hbox vsplit hsplit relative pane
@@ -242,6 +242,30 @@ Will run the code after the next round of I/O events.
 sub later(&) {
 	my $code = shift;
 	tickit->later($code)
+}
+
+=head2 timer
+
+Sets up a timer to run a block of code later.
+
+ timer {
+  print "about a second has passed\n";
+ } after => 1;
+
+ timer {
+  print "about a minute has passed\n";
+ } at => time + 60;
+
+Takes a codeblock and either C<at> or C<after> definitions. Passing
+anything other than a single definition will cause an exception.
+
+=cut
+
+sub timer(&@) {
+	my $code = shift;
+	my %args = @_;
+	die 'when did you want to run the code?' unless 1 == grep exists $args{$_}, qw(at after);
+	tickit->timer(%args, $code);
 }
 
 =head2 add_widgets
@@ -665,13 +689,14 @@ A L<Tickit::Widget::Tree>. If it works I'd be amazed.
 =cut
 
 sub tree(&@) {
-	my %args = (on_enter => @_);
+	my %args = (on_activate => @_);
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
 	my $w = Tickit::Widget::Tree->new(
 		%args
 	);
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
+	$w
 }
 
 =head2 placeholder

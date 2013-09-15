@@ -14,7 +14,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 SYNOPSIS
 
@@ -132,6 +132,21 @@ Defers a block of code.
  };
 
 Will run the code after the next round of I/O events.
+
+=head2 timer
+
+Sets up a timer to run a block of code later.
+
+ timer {
+  print "about a second has passed\n";
+ } after => 1;
+
+ timer {
+  print "about a minute has passed\n";
+ } at => time + 60;
+
+Takes a codeblock and either C<at> or C<after> definitions. Passing
+anything other than a single definition will cause an exception.
 
 =head2 add_widgets
 

@@ -1,5 +1,9 @@
 Revision history for Tickit-DSL
 
+0.008     2013-09-15 19:01:51 Europe/London
+	Features:
+	* Support timers - 'timer { ... } after => 5;'
+
 0.007     2013-09-15 16:40:15 Europe/London
 	Features:
 	* Support the ::Layout::Relative widget
