@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 SYNOPSIS
 
@@ -125,7 +125,7 @@ our @EXPORT = our @EXPORT_OK = qw(
 	widget customwidget
 	add_widgets
 	gridbox gridrow vbox hbox vsplit hsplit relative pane
-	static entry
+	static entry checkbox button
 	scroller scroller_text scrollbox
 	tabbed
 	tree table
@@ -484,11 +484,14 @@ sub relative(&@) {
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
 	my $w = Tickit::Widget::Layout::Relative->new(%args);
 	{
+		local @WIDGET_ARGS;
 		local $PARENT = $w;
 		$code->($w);
 	}
-	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
-	apply_widget($w);
+	{
+		local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+		apply_widget($w);
+	}
 }
 
 =head2 pane
@@ -680,6 +683,45 @@ sub entry(&@) {
 	);
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
+}
+
+=head2 checkbox
+
+Checkbox (or checkbutton).
+
+=cut
+
+sub checkbox(&@) {
+	shift;
+	my %args = @_;
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::CheckButton->new(
+		%args
+	);
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+	apply_widget($w);
+}
+
+=head2 button
+
+A button. First parameter is the code to run when activated,
+second parameter is the label:
+
+ button { warn "Activated" } 'OK';
+
+=cut
+
+sub button(&@) {
+	my $code = shift;
+	my %args = (on_click => $code, label => @_);
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::Button->new(
+		%args
+	);
+	{
+		local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+		apply_widget($w);
+	}
 }
 
 =head2 tree

@@ -14,7 +14,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.008
+version 0.009
 
 =head1 SYNOPSIS
 
@@ -340,6 +340,17 @@ since the C<on_enter> handler seems like an important feature.
 
  my $rslt = static 'result here';
  entry { shift; $rslt->set_text(eval shift) } text => '1 + 3';
+
+=head2 checkbox
+
+Checkbox (or checkbutton).
+
+=head2 button
+
+A button. First parameter is the code to run when activated,
+second parameter is the label:
+
+ button { warn "Activated" } 'OK';
 
 =head2 tree
 

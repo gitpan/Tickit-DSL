@@ -1,5 +1,16 @@
 Revision history for Tickit-DSL
 
+0.009     2013-09-28 20:04:55 Europe/London
+	Features:
+	* Added checkbox (Tickit::Widget::CheckButton)
+	* Added button (Tickit::Widget::Button)
+
+	Dependencies:
+	* Cleaned up cpanfile dep list
+
+	Bug fixes:
+	* Updated Dist::Zilla::Plugin::Test::Compile for RT88783
+
 0.008     2013-09-15 19:01:51 Europe/London
 	Features:
 	* Support timers - 'timer { ... } after => 5;'
