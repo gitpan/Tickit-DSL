@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.009';
+our $VERSION = '0.010';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.009
+version 0.010
 
 =head1 SYNOPSIS
 
@@ -103,7 +103,6 @@ use Tickit::Widget::Spinner;
 use Tickit::Widget::Static;
 use Tickit::Widget::Statusbar;
 use Tickit::Widget::Tabbed;
-use Tickit::Widget::Table;
 use Tickit::Widget::Table::Paged;
 use Tickit::Widget::Tree;
 use Tickit::Widget::VBox;
@@ -113,6 +112,7 @@ use List::UtilsBy qw(extract_by);
 
 our $MODE;
 our $PARENT;
+our $RADIOGROUP;
 our @PENDING_CHILD;
 our $TICKIT;
 our $LOOP;
@@ -124,14 +124,16 @@ our @EXPORT = our @EXPORT_OK = qw(
 	tickit later timer loop
 	widget customwidget
 	add_widgets
-	gridbox gridrow vbox hbox vsplit hsplit relative pane
+	gridbox gridrow vbox hbox vsplit hsplit relative pane frame
 	static entry checkbox button
+	radiogroup radiobutton
 	scroller scroller_text scrollbox
 	tabbed
 	tree table
 	placeholder placegrid decoration
 	statusbar
 	menubar submenu menuitem menuspacer
+	monthview
 );
 
 =head1 METHODS
@@ -356,6 +358,32 @@ sub vsplit(&@) {
 			%args,
 		);
 	};
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+	apply_widget($w);
+}
+
+=head2 frame
+
+Uses L<Tickit::Widget::Frame> to draw a frame around a single widget. This is a container, so the first
+parameter is a coderef which will switch the current parent to the new frame.
+
+Any additional parameters will be passed to the new L<Tickit::Widget::Frame>
+instance:
+
+ frame {
+   ...
+ } title => 'some frame', title_align => 0.5;
+
+=cut
+
+sub frame(&@) {
+	my ($code, %args) = @_;
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::Frame->new(%args);
+	{
+		local $PARENT = $w;
+		$code->($w);
+	}
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 }
@@ -692,14 +720,57 @@ Checkbox (or checkbutton).
 =cut
 
 sub checkbox(&@) {
-	shift;
-	my %args = @_;
+	my %args = (on_toggle => @_);
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
 	my $w = Tickit::Widget::CheckButton->new(
 		%args
 	);
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
+}
+
+=head2 radiobutton
+
+ radiogroup {
+  radiobutton { } 'one';
+  radiobutton { } 'two';
+  radiobutton { } 'three';
+ };
+
+=cut
+
+sub radiobutton(&@) {
+	my $code = shift;
+	die "need a radiogroup" unless $RADIOGROUP;
+	my %args = (
+		group => $RADIOGROUP,
+		label => @_
+	);
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::RadioButton->new(%args);
+	$w->set_on_toggle($code);
+	{
+		local @WIDGET_ARGS = %parent_args;
+		apply_widget($w);
+	}
+}
+
+=head2 radiogroup
+
+See L</radiobutton>.
+
+=cut
+
+sub radiogroup(&@) {
+	my $code = shift;
+	my %args = @_;
+	# my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $group = Tickit::Widget::RadioButton::Group->new;
+	$group->set_on_changed(delete $args{on_changed}) if exists $args{on_changed};
+	{
+		local $RADIOGROUP = $group;
+		$code->();
+	}
 }
 
 =head2 button

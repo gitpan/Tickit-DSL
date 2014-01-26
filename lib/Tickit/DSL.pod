@@ -14,7 +14,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-version 0.009
+version 0.010
 
 =head1 SYNOPSIS
 
@@ -196,6 +196,18 @@ instance:
    ...
  } classes => [qw(other vsplit)], style => { fg => 'green' };
 
+=head2 frame
+
+Uses L<Tickit::Widget::Frame> to draw a frame around a single widget. This is a container, so the first
+parameter is a coderef which will switch the current parent to the new frame.
+
+Any additional parameters will be passed to the new L<Tickit::Widget::Frame>
+instance:
+
+ frame {
+   ...
+ } title => 'some frame', title_align => 0.5;
+
 =head2 gridbox
 
 Creates a L<Tickit::Widget::GridBox>. This is a container, so the first
@@ -344,6 +356,18 @@ since the C<on_enter> handler seems like an important feature.
 =head2 checkbox
 
 Checkbox (or checkbutton).
+
+=head2 radiobutton
+
+ radiogroup {
+  radiobutton { } 'one';
+  radiobutton { } 'two';
+  radiobutton { } 'three';
+ };
+
+=head2 radiogroup
+
+See L</radiobutton>.
 
 =head2 button
 

@@ -1,5 +1,11 @@
 Revision history for Tickit-DSL
 
+0.010     2014-01-26 05:52:44+00:00 Europe/London
+	Features:
+	* Radio button support (Tickit::Widget::RadioButton)
+	* Frame support (Tickit::Widget::Frame)
+	* Dropped ::Table pending updated version on CPAN
+
 0.009     2013-09-28 20:04:55 Europe/London
 	Features:
 	* Added checkbox (Tickit::Widget::CheckButton)

@@ -4,7 +4,7 @@
       "Tom Molesworth <cpan@entitymodel.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132661",
+   "generated_by" : "Dist::Zilla version 5.012, CPAN::Meta::Converter version 2.133380",
    "license" : [
       "perl_5"
    ],
@@ -46,7 +46,6 @@
             "Tickit::Widget::SparkLine" : "0.001",
             "Tickit::Widget::Statusbar" : "0.001",
             "Tickit::Widget::Tabbed" : "0.010",
-            "Tickit::Widget::Table" : "0.100",
             "Tickit::Widget::Table::Paged" : "0.001",
             "Tickit::Widget::Tree" : "0.102",
             "Tickit::Widgets" : "0.12",
@@ -58,7 +57,7 @@
             "File::Spec" : "0",
             "IO::Handle" : "0",
             "IPC::Open3" : "0",
-            "Test::CheckDeps" : "0.007",
+            "Test::CheckDeps" : "0.010",
             "Test::More" : "0.98"
          }
       }
@@ -71,6 +70,6 @@
       },
       "homepage" : "http://search.cpan.org/dist/Tickit-DSL/"
    },
-   "version" : "0.009"
+   "version" : "0.010"
 }
 
