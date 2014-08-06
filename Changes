@@ -1,5 +1,12 @@
 Revision history for Tickit-DSL
 
+0.011     2014-08-06 16:50:56+01:00 Europe/London
+	Features:
+	* scroller_richtext support (Tickit::Widget::Scroller::Item::RichText)
+	* floatbox and float support (Tickit::Widget::FloatBox)
+	* Better support for button coderef - pass the container as the first
+	parameter so that new widgets can be added consistently
+
 0.010     2014-01-26 05:52:44+00:00 Europe/London
 	Features:
 	* Radio button support (Tickit::Widget::RadioButton)

@@ -3,40 +3,41 @@ abstract: 'shortcuts for writing Tickit apps'
 author:
   - 'Tom Molesworth <cpan@entitymodel.com>'
 build_requires:
-  File::Spec: 0
-  IO::Handle: 0
-  IPC::Open3: 0
-  Test::CheckDeps: 0.010
-  Test::More: 0.98
-  perl: 5.010001
+  File::Spec: '0'
+  IO::Handle: '0'
+  IPC::Open3: '0'
+  Test::CheckDeps: '0.010'
+  Test::More: '0.98'
+  perl: '5.010001'
 configure_requires:
-  ExtUtils::MakeMaker: 6.48
+  ExtUtils::MakeMaker: '6.48'
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 5.012, CPAN::Meta::Converter version 2.133380'
+generated_by: 'Dist::Zilla version 5.020, CPAN::Meta::Converter version 2.140640'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: Tickit-DSL
 requires:
-  Exporter: 0
-  List::UtilsBy: 0
-  Tickit: 0.37
-  Tickit::Widget::Decoration: 0.001
-  Tickit::Widget::Layout::Relative: 0.003
-  Tickit::Widget::Menu: 0.05
-  Tickit::Widget::Progressbar: 0.002
-  Tickit::Widget::ScrollBox: 0.01
-  Tickit::Widget::Scroller: 0.12
-  Tickit::Widget::SegmentDisplay: 0.01
-  Tickit::Widget::SparkLine: 0.001
-  Tickit::Widget::Statusbar: 0.001
-  Tickit::Widget::Tabbed: 0.010
-  Tickit::Widget::Table::Paged: 0.001
-  Tickit::Widget::Tree: 0.102
-  Tickit::Widgets: 0.12
-  parent: 0
+  Exporter: '0'
+  List::UtilsBy: '0'
+  Tickit: '0.46'
+  Tickit::Widget::Decoration: '0.001'
+  Tickit::Widget::FloatBox: '0.02'
+  Tickit::Widget::Layout::Relative: '0.003'
+  Tickit::Widget::Menu: '0.05'
+  Tickit::Widget::Progressbar: '0.002'
+  Tickit::Widget::ScrollBox: '0.01'
+  Tickit::Widget::Scroller: '0.12'
+  Tickit::Widget::SegmentDisplay: '0.01'
+  Tickit::Widget::SparkLine: '0.001'
+  Tickit::Widget::Statusbar: '0.001'
+  Tickit::Widget::Tabbed: '0.010'
+  Tickit::Widget::Table::Paged: '0.001'
+  Tickit::Widget::Tree: '0.102'
+  Tickit::Widgets: '0.12'
+  parent: '0'
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Tickit-DSL
   homepage: http://search.cpan.org/dist/Tickit-DSL/
-version: 0.010
+version: '0.011'
