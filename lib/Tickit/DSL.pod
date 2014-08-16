@@ -16,7 +16,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.011
+Version 0.012
 
 =head1 SYNOPSIS
 
@@ -451,6 +451,13 @@ Purely decorative. A L<Tickit::Widget::Decoration>, controlled entirely through 
    widget { decoration } expand => 3;
    decoration class => 'deco1', 'parent:expand' => 5;
  };
+
+=head2 fileviewer
+
+File viewer. Takes a code block and a file name. The code block is currently unused,
+but eventually will be called when the current line is activated in the widget.
+
+ fileviewer { } 'somefile.txt';
 
 =head2 FUNCTIONS - Menu-related
 

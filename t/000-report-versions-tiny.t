@@ -58,6 +58,7 @@ eval { $v .= pmver('Test::CheckDeps','0.010') };
 eval { $v .= pmver('Test::More','0.98') };
 eval { $v .= pmver('Tickit','0.46') };
 eval { $v .= pmver('Tickit::Widget::Decoration','0.001') };
+eval { $v .= pmver('Tickit::Widget::FileViewer','0.002') };
 eval { $v .= pmver('Tickit::Widget::FloatBox','0.02') };
 eval { $v .= pmver('Tickit::Widget::Layout::Relative','0.003') };
 eval { $v .= pmver('Tickit::Widget::Menu','0.05') };

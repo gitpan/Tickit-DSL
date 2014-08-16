@@ -1,5 +1,9 @@
 Revision history for Tickit-DSL
 
+0.012     2014-08-16 04:44:59+01:00 Europe/London
+	Features:
+	* fileviewer support (Tickit::Widget::FileViewer)
+
 0.011     2014-08-06 16:50:56+01:00 Europe/London
 	Features:
 	* scroller_richtext support (Tickit::Widget::Scroller::Item::RichText)

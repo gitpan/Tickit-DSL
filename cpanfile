@@ -5,6 +5,7 @@ requires 'List::UtilsBy', 0;
 requires 'Tickit', '>= 0.46';
 requires 'Tickit::Widgets', '>= 0.12';
 requires 'Tickit::Widget::Decoration', '>= 0.001';
+requires 'Tickit::Widget::FileViewer', '>= 0.002';
 requires 'Tickit::Widget::FloatBox', '>= 0.02';
 requires 'Tickit::Widget::Layout::Relative', '>= 0.003';
 requires 'Tickit::Widget::Menu', '>= 0.05';

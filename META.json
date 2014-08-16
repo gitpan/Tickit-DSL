@@ -37,6 +37,7 @@
             "List::UtilsBy" : "0",
             "Tickit" : "0.46",
             "Tickit::Widget::Decoration" : "0.001",
+            "Tickit::Widget::FileViewer" : "0.002",
             "Tickit::Widget::FloatBox" : "0.02",
             "Tickit::Widget::Layout::Relative" : "0.003",
             "Tickit::Widget::Menu" : "0.05",
@@ -71,6 +72,6 @@
       },
       "homepage" : "http://search.cpan.org/dist/Tickit-DSL/"
    },
-   "version" : "0.011"
+   "version" : "0.012"
 }
 

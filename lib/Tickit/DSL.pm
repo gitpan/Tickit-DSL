@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.011
+Version 0.012
 
 =head1 SYNOPSIS
 
@@ -84,6 +84,7 @@ use Tickit::Widget::Button;
 use Tickit::Widget::CheckButton;
 use Tickit::Widget::Decoration;
 use Tickit::Widget::Entry;
+use Tickit::Widget::FileViewer;
 use Tickit::Widget::Frame;
 use Tickit::Widget::FloatBox;
 use Tickit::Widget::GridBox;
@@ -137,6 +138,7 @@ our @EXPORT = our @EXPORT_OK = qw(
 	placeholder placegrid decoration
 	statusbar
 	menubar submenu menuitem menuspacer
+	fileviewer
 );
 
 =head1 METHODS
@@ -959,6 +961,31 @@ sub decoration(@) {
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget(Tickit::Widget::Decoration->new(%args));
+}
+
+=head2 fileviewer
+
+File viewer. Takes a code block and a file name. The code block is currently unused,
+but eventually will be called when the current line is activated in the widget.
+
+ fileviewer { } 'somefile.txt';
+
+=cut
+
+sub fileviewer(&;@) {
+	my $code = shift;
+	my %args = (
+		file => @_
+	);
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+
+	my $w = Tickit::Widget::FileViewer->new(
+		%args
+	);
+	{
+		local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+		apply_widget($w);
+	}
 }
 
 =head2 FUNCTIONS - Menu-related
