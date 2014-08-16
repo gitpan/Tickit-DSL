@@ -11,7 +11,7 @@ use ExtUtils::MakeMaker 6.48;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "shortcuts for writing Tickit apps",
-  "AUTHOR" => "Tom Molesworth <cpan\@entitymodel.com>",
+  "AUTHOR" => "Tom Molesworth <cpan\@perlsite.co.uk>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.48"
   },
@@ -23,6 +23,7 @@ my %WriteMakefileArgs = (
     "Exporter" => 0,
     "List::UtilsBy" => 0,
     "Tickit" => "0.46",
+    "Tickit::Console" => "0.06",
     "Tickit::Widget::Decoration" => "0.001",
     "Tickit::Widget::FileViewer" => "0.002",
     "Tickit::Widget::FloatBox" => "0.02",
@@ -47,7 +48,7 @@ my %WriteMakefileArgs = (
     "Test::CheckDeps" => "0.010",
     "Test::More" => "0.98"
   },
-  "VERSION" => "0.013",
+  "VERSION" => "0.014",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -63,6 +64,7 @@ my %FallbackPrereqs = (
   "Test::CheckDeps" => "0.010",
   "Test::More" => "0.98",
   "Tickit" => "0.46",
+  "Tickit::Console" => "0.06",
   "Tickit::Widget::Decoration" => "0.001",
   "Tickit::Widget::FileViewer" => "0.002",
   "Tickit::Widget::FloatBox" => "0.02",

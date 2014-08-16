@@ -1,5 +1,12 @@
 Revision history for Tickit-DSL
 
+0.014     2014-08-16 22:10:46+01:00 Europe/London
+	Features:
+	* console support (Tickit::Console)
+
+	Documentation:
+	* Fixed email address
+
 0.013     2014-08-16 19:26:52+01:00 Europe/London
 	Features:
 	* table support (Tickit::Widget::Table)

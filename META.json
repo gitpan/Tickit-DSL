@@ -1,7 +1,7 @@
 {
    "abstract" : "shortcuts for writing Tickit apps",
    "author" : [
-      "Tom Molesworth <cpan@entitymodel.com>"
+      "Tom Molesworth <cpan@perlsite.co.uk>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Dist::Zilla version 5.020, CPAN::Meta::Converter version 2.140640",
@@ -36,6 +36,7 @@
             "Exporter" : "0",
             "List::UtilsBy" : "0",
             "Tickit" : "0.46",
+            "Tickit::Console" : "0.06",
             "Tickit::Widget::Decoration" : "0.001",
             "Tickit::Widget::FileViewer" : "0.002",
             "Tickit::Widget::FloatBox" : "0.02",
@@ -72,6 +73,6 @@
       },
       "homepage" : "http://search.cpan.org/dist/Tickit-DSL/"
    },
-   "version" : "0.013"
+   "version" : "0.014"
 }
 

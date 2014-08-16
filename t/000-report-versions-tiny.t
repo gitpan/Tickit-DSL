@@ -57,6 +57,7 @@ eval { $v .= pmver('List::UtilsBy','any version') };
 eval { $v .= pmver('Test::CheckDeps','0.010') };
 eval { $v .= pmver('Test::More','0.98') };
 eval { $v .= pmver('Tickit','0.46') };
+eval { $v .= pmver('Tickit::Console','0.06') };
 eval { $v .= pmver('Tickit::Widget::Decoration','0.001') };
 eval { $v .= pmver('Tickit::Widget::FileViewer','0.002') };
 eval { $v .= pmver('Tickit::Widget::FloatBox','0.02') };

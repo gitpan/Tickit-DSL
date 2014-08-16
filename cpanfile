@@ -3,6 +3,7 @@ requires 'Exporter', 0;
 requires 'List::UtilsBy', 0;
 
 requires 'Tickit', '>= 0.46';
+requires 'Tickit::Console', '>= 0.06';
 requires 'Tickit::Widgets', '>= 0.12';
 requires 'Tickit::Widget::Decoration', '>= 0.001';
 requires 'Tickit::Widget::FileViewer', '>= 0.002';

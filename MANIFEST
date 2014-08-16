@@ -10,6 +10,7 @@ README
 SIGNATURE
 cpanfile
 dist.ini
+examples/console.pl
 examples/dsl-menu.pl
 examples/dsl.pl
 examples/fileview.pl

@@ -16,7 +16,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.013
+Version 0.014
 
 =head1 SYNOPSIS
 
@@ -318,6 +318,23 @@ a L<String::Tagged> instance, like this:
  my $str = String::Tagged->new( "An important message" );
  $str->apply_tag( 3, 9, b => 1 );
  scroller_richtext $str;
+
+=head2 console
+
+Console widget. Current just supports creating the
+console and setting an on_line callback:
+
+ my $con = console {
+  warn "Had a line: @_";
+ };
+ $con->add_tab(
+  name => 'test',
+  on_line => sub { warn "test line: @_" }
+ );
+
+although a future version may provide C< console_tab >
+as a helper function for adding tabs to an existing
+console.
 
 =head1 FUNCTIONS - Miscellaneous container
 
@@ -634,7 +651,7 @@ L<as_heavy|Exporter/as_heavy>, L<export|Exporter/export>, L<export_fail|Exporter
 
 =head1 AUTHOR
 
-Tom Molesworth <cpan@entitymodel.com>
+Tom Molesworth <cpan@perlsite.co.uk>
 
 =head1 LICENSE
 
