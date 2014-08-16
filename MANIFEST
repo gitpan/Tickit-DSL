@@ -14,6 +14,7 @@ examples/dsl-menu.pl
 examples/dsl.pl
 examples/fileview.pl
 examples/floatbox.pl
+examples/table.pl
 examples/two-pane.pl
 lib/Tickit/DSL.pm
 lib/Tickit/DSL.pod

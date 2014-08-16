@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-our $VERSION = '0.012';
+our $VERSION = '0.013';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.012
+Version 0.013
 
 =head1 SYNOPSIS
 
@@ -107,7 +107,7 @@ use Tickit::Widget::Spinner;
 use Tickit::Widget::Static;
 use Tickit::Widget::Statusbar;
 use Tickit::Widget::Tabbed;
-use Tickit::Widget::Table::Paged;
+use Tickit::Widget::Table;
 use Tickit::Widget::Tree;
 use Tickit::Widget::VBox;
 use Tickit::Widget::VSplit;
@@ -909,6 +909,36 @@ sub tree(&@) {
 	my $w = Tickit::Widget::Tree->new(
 		%args
 	);
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+	apply_widget($w);
+	$w
+}
+
+=head2 table
+
+Tabular rendering.
+
+ table {
+  warn "activated one or more items";
+ } data => [
+  [ 1, 'first line' ],
+  [ 2, 'second line' ],
+ ], columns => [
+  { label => 'ID', width => 9, align => 'right' },
+  { label => 'Description' },
+ ];
+
+=cut
+
+sub table(&@) {
+	my %args = (on_activate => @_);
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::Table->new(
+		%args
+	);
+	$w->adapter->get(
+		items => [0,1]
+	)->on_done(sub { warn "item: " . join ',', map @{$_||[]}, @{$_[0]} });
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 	$w
