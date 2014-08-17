@@ -1,5 +1,9 @@
 Revision history for Tickit-DSL
 
+0.015     2014-08-17 16:11:50+01:00 Europe/London
+	Features:
+	* desktop support (Tickit::Widget::Layout::Desktop)
+
 0.014     2014-08-16 22:10:46+01:00 Europe/London
 	Features:
 	* console support (Tickit::Console)

@@ -11,6 +11,7 @@ SIGNATURE
 cpanfile
 dist.ini
 examples/console.pl
+examples/desktop.pl
 examples/dsl-menu.pl
 examples/dsl.pl
 examples/fileview.pl

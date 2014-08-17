@@ -2,9 +2,10 @@ package Tickit::DSL;
 # ABSTRACT: shortcuts for writing Tickit apps
 use strict;
 use warnings;
+
 use parent qw(Exporter);
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 =head1 NAME
 
@@ -12,7 +13,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.014
+Version 0.015
 
 =head1 SYNOPSIS
 
@@ -92,6 +93,7 @@ use Tickit::Widget::FloatBox;
 use Tickit::Widget::GridBox;
 use Tickit::Widget::HBox;
 use Tickit::Widget::HSplit;
+use Tickit::Widget::Layout::Desktop;
 use Tickit::Widget::Layout::Relative;
 use Tickit::Widget::Menu;
 use Tickit::Widget::MenuBar;
@@ -130,7 +132,7 @@ our @EXPORT = our @EXPORT_OK = qw(
 	tickit later timer loop
 	widget customwidget
 	add_widgets
-	gridbox gridrow vbox hbox vsplit hsplit relative pane frame
+	gridbox gridrow vbox hbox vsplit hsplit desktop relative pane frame
 	floatbox float
 	static entry checkbox button
 	radiogroup radiobutton
@@ -507,6 +509,40 @@ sub hsplit(&@) {
 	};
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
+}
+
+=head2 desktop
+
+Desktop layout. Pretty much like any other container,
+but with the ability to specify window positions and
+then move them around interactively.
+
+ desktop {
+  my $txt = static 'a static widget', 'parent:label' => 'static';
+  entry {
+   $txt->set_text($_[1])
+  } 'parent:label' => 'entry widget',
+    'parent:left' => 1,
+	'parent:top' => 1;
+ };
+
+=cut
+
+sub desktop(&@) {
+	my ($code, %args) = @_;
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::Layout::Desktop->new(%args);
+	{
+		tickit->later(sub {
+			local @WIDGET_ARGS;
+			local $PARENT = $w;
+			$code->($w);
+		});
+	}
+	{
+		local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+		apply_widget($w);
+	}
 }
 
 =head2 relative
@@ -1234,6 +1270,22 @@ sub apply_widget {
 		} elsif($PARENT->isa('Tickit::Widget::FloatBox')) {
 			# Needs 0.02+ to ensure parent is set correctly
 			$PARENT->set_base_child($w);
+		} elsif($PARENT->isa('Tickit::Widget::Layout::Desktop')) {
+			my %args = @WIDGET_ARGS;
+			my $dw = $PARENT->window;
+			my $left = $args{left} // int($dw->cols * rand);
+			my $top = $args{top} // int($dw->lines * rand);
+			my $cols = $args{cols} // (20 + int(10 * rand));
+			my $lines = $args{cols} // (5 + int(20 * rand));
+			$left = $dw->cols - $cols if $left + $cols >= $dw->cols;
+			$top = $dw->lines - $lines if $top + $lines >= $dw->lines;
+			$PARENT->create_panel(
+				label  => $args{label} // 'New window',
+				left   => $left,
+				top    => $top,
+				cols   => $cols,
+				lines  => $lines,
+			)->add($w);
 		} else {
 			$PARENT->add($w, @WIDGET_ARGS);
 		}
@@ -1259,6 +1311,8 @@ __END__
 
 =item * L<Tickit::Widget::CheckButton>
 
+=item * L<Tickit::Widget::Console>
+
 =item * L<Tickit::Widget::Decoration>
 
 =item * L<Tickit::Widget::Entry>
@@ -1272,6 +1326,8 @@ __END__
 =item * L<Tickit::Widget::HBox>
 
 =item * L<Tickit::Widget::HSplit>
+
+=item * L<Tickit::Widget::Layout::Desktop>
 
 =item * L<Tickit::Widget::Layout::Relative>
 

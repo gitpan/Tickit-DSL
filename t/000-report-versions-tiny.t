@@ -61,6 +61,7 @@ eval { $v .= pmver('Tickit::Console','0.06') };
 eval { $v .= pmver('Tickit::Widget::Decoration','0.001') };
 eval { $v .= pmver('Tickit::Widget::FileViewer','0.002') };
 eval { $v .= pmver('Tickit::Widget::FloatBox','0.02') };
+eval { $v .= pmver('Tickit::Widget::Layout::Desktop','0.001') };
 eval { $v .= pmver('Tickit::Widget::Layout::Relative','0.003') };
 eval { $v .= pmver('Tickit::Widget::Menu','0.05') };
 eval { $v .= pmver('Tickit::Widget::Progressbar','0.002') };

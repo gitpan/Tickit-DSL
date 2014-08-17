@@ -16,7 +16,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.014
+Version 0.015
 
 =head1 SYNOPSIS
 
@@ -264,6 +264,21 @@ instance:
  hsplit {
    ...
  } classes => [qw(other hsplit)], style => { fg => 'green' };
+
+=head2 desktop
+
+Desktop layout. Pretty much like any other container,
+but with the ability to specify window positions and
+then move them around interactively.
+
+ desktop {
+  my $txt = static 'a static widget', 'parent:label' => 'static';
+  entry {
+   $txt->set_text($_[1])
+  } 'parent:label' => 'entry widget',
+    'parent:left' => 1,
+	'parent:top' => 1;
+ };
 
 =head2 relative
 
@@ -589,6 +604,8 @@ Not exported.
 
 =item * L<Tickit::Widget::CheckButton>
 
+=item * L<Tickit::Widget::Console>
+
 =item * L<Tickit::Widget::Decoration>
 
 =item * L<Tickit::Widget::Entry>
@@ -602,6 +619,8 @@ Not exported.
 =item * L<Tickit::Widget::HBox>
 
 =item * L<Tickit::Widget::HSplit>
+
+=item * L<Tickit::Widget::Layout::Desktop>
 
 =item * L<Tickit::Widget::Layout::Relative>
 

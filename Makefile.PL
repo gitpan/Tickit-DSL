@@ -27,6 +27,7 @@ my %WriteMakefileArgs = (
     "Tickit::Widget::Decoration" => "0.001",
     "Tickit::Widget::FileViewer" => "0.002",
     "Tickit::Widget::FloatBox" => "0.02",
+    "Tickit::Widget::Layout::Desktop" => "0.001",
     "Tickit::Widget::Layout::Relative" => "0.003",
     "Tickit::Widget::Menu" => "0.05",
     "Tickit::Widget::Progressbar" => "0.002",
@@ -48,7 +49,7 @@ my %WriteMakefileArgs = (
     "Test::CheckDeps" => "0.010",
     "Test::More" => "0.98"
   },
-  "VERSION" => "0.014",
+  "VERSION" => "0.015",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -68,6 +69,7 @@ my %FallbackPrereqs = (
   "Tickit::Widget::Decoration" => "0.001",
   "Tickit::Widget::FileViewer" => "0.002",
   "Tickit::Widget::FloatBox" => "0.02",
+  "Tickit::Widget::Layout::Desktop" => "0.001",
   "Tickit::Widget::Layout::Relative" => "0.003",
   "Tickit::Widget::Menu" => "0.05",
   "Tickit::Widget::Progressbar" => "0.002",
