@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw(Exporter);
 
-our $VERSION = '0.015';
+our $VERSION = '0.016';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.015
+Version 0.016
 
 =head1 SYNOPSIS
 
@@ -803,7 +803,7 @@ sub float(&@) {
 	die "No floatbox found for this float" unless $floatbox;
 
 	my $w = Tickit::Widget::VBox->new;
-	$floatbox->add_float(
+	my $float = $floatbox->add_float(
 		child => $w,
 		%args
 	);
@@ -811,7 +811,7 @@ sub float(&@) {
 	# window is ready.
 	later {
 		local $PARENT = $w;
-		$code->($w);
+		$code->($float);
 	};
 }
 
@@ -968,13 +968,57 @@ sub button(&@) {
 
 =head2 tree
 
-A L<Tickit::Widget::Tree>. If it works I'd be amazed.
+A L<Tickit::Widget::Tree>. It only partially works, but you're welcome to try it.
+
+ tree {
+	warn "activated: @_\n";
+ } data => [
+ 	node1 => [
+		qw(some nodes here)
+	],
+	node2 => [
+		qw(more nodes in this one),
+		and => [
+			qw(this has a few child nodes too)
+		]
+	],
+ ];
 
 =cut
 
 sub tree(&@) {
 	my %args = (on_activate => @_);
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+
+	# this should really be in ::Tree
+	if(my $data = delete $args{data}) {
+		my $root = Tree::DAG_Node->new;
+		my $add;
+		$add = sub {
+			my ($parent, $item) = @_;
+			if(my $ref = ref $item) {
+				if($ref eq 'ARRAY') {
+					my $prev = $parent;
+					for (@$item) {
+						if(ref) {
+							$add->($prev, $_);
+						} else {
+							my $node = $parent->new_daughter;
+							$node->name($_);
+							$prev = $node;
+						}
+					}
+				} else {
+					die 'This data was not in the desired format. Sorry.';
+				}
+			} else {
+				my $node = $parent->new_daughter;
+				$node->name($item);
+			}
+		};
+		$add->($root, $data);
+		$args{root} = $root;
+	}
 	my $w = Tickit::Widget::Tree->new(
 		%args
 	);
@@ -1106,12 +1150,32 @@ one of these.
   };
  };
 
+You'll probably want to show popup menus at some
+point. Try this:
+
+ floatbox {
+  vbox {
+   menubar {
+    submenu Help => sub {
+     menuitem About => sub {
+	  float {
+	   static 'this is a popup message'
+	  }
+    };
+   };
+   static 'plain text under the menubar';
+  }
+ };
+
 =cut
 
+# haxx. A menubar has no link back to the container.
+our $MENU_PARENT;
 sub menubar(&@) {
 	my ($code, %args) = @_;
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
 	my $w = Tickit::Widget::MenuBar->new(%args);
+	local $MENU_PARENT = $PARENT;
 	{
 		local $PARENT = $w;
 		$code->($w);
@@ -1161,9 +1225,13 @@ A menu is not much use without something in it. See L</menubar>.
 
 sub menuitem {
 	my ($text, $code) = splice @_, 0, 2;
+	my $parent = $MENU_PARENT;
 	my $w = Tickit::Widget::Menu::Item->new(
 		name        => $text,
-		on_activate => $code,
+		on_activate => sub {
+			local $PARENT = $parent;
+			$code->($PARENT);
+		},
 		@_
 	);
 	apply_widget($w);

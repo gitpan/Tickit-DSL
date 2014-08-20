@@ -1,5 +1,13 @@
 Revision history for Tickit-DSL
 
+0.016     2014-08-20 21:20:28+01:00 Europe/London
+	Features:
+	* tree accepts data parameter
+	* float now gets the $float as first parameter
+	* menu callbacks will be passed the container
+	which holds the menubar, allowing floatbox-and-menu
+	combinations (popup dialogs, for example)
+
 0.015     2014-08-17 16:11:50+01:00 Europe/London
 	Features:
 	* desktop support (Tickit::Widget::Layout::Desktop)

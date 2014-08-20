@@ -16,7 +16,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.015
+Version 0.016
 
 =head1 SYNOPSIS
 
@@ -455,7 +455,21 @@ second parameter is the label:
 
 =head2 tree
 
-A L<Tickit::Widget::Tree>. If it works I'd be amazed.
+A L<Tickit::Widget::Tree>. It only partially works, but you're welcome to try it.
+
+ tree {
+	warn "activated: @_\n";
+ } data => [
+ 	node1 => [
+		qw(some nodes here)
+	],
+	node2 => [
+		qw(more nodes in this one),
+		and => [
+			qw(this has a few child nodes too)
+		]
+	],
+ ];
 
 =head2 table
 
@@ -522,6 +536,23 @@ one of these.
   submenu Help => sub {
    menuitem About => sub { warn 'about' };
   };
+ };
+
+You'll probably want to show popup menus at some
+point. Try this:
+
+ floatbox {
+  vbox {
+   menubar {
+    submenu Help => sub {
+     menuitem About => sub {
+	  float {
+	   static 'this is a popup message'
+	  }
+    };
+   };
+   static 'plain text under the menubar';
+  }
  };
 
 =head2 submenu
