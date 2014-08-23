@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw(Exporter);
 
-our $VERSION = '0.016';
+our $VERSION = '0.017';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.016
+Version 0.017
 
 =head1 SYNOPSIS
 
@@ -83,6 +83,7 @@ mainly intended for prototyping:
 use Tickit::Console;
 use Tickit::Widget::Border;
 use Tickit::Widget::Box;
+use Tickit::Widget::Breadcrumb;
 use Tickit::Widget::Button;
 use Tickit::Widget::CheckButton;
 use Tickit::Widget::Decoration;
@@ -139,7 +140,7 @@ our @EXPORT = our @EXPORT_OK = qw(
 	scroller scroller_text scroller_richtext scrollbox
 	console
 	tabbed
-	tree table
+	tree table breadcrumb
 	placeholder placegrid decoration
 	statusbar
 	menubar submenu menuitem menuspacer
@@ -990,35 +991,6 @@ sub tree(&@) {
 	my %args = (on_activate => @_);
 	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
 
-	# this should really be in ::Tree
-	if(my $data = delete $args{data}) {
-		my $root = Tree::DAG_Node->new;
-		my $add;
-		$add = sub {
-			my ($parent, $item) = @_;
-			if(my $ref = ref $item) {
-				if($ref eq 'ARRAY') {
-					my $prev = $parent;
-					for (@$item) {
-						if(ref) {
-							$add->($prev, $_);
-						} else {
-							my $node = $parent->new_daughter;
-							$node->name($_);
-							$prev = $node;
-						}
-					}
-				} else {
-					die 'This data was not in the desired format. Sorry.';
-				}
-			} else {
-				my $node = $parent->new_daughter;
-				$node->name($item);
-			}
-		};
-		$add->($root, $data);
-		$args{root} = $root;
-	}
 	my $w = Tickit::Widget::Tree->new(
 		%args
 	);
@@ -1049,9 +1021,28 @@ sub table(&@) {
 	my $w = Tickit::Widget::Table->new(
 		%args
 	);
-	$w->adapter->get(
-		items => [0,1]
-	)->on_done(sub { warn "item: " . join ',', map @{$_||[]}, @{$_[0]} });
+	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
+	apply_widget($w);
+	$w
+}
+
+=head2 breadcrumb
+
+Provides a "breadcrumb trail".
+
+ my $bc = breadcrumb {
+  warn "crumb selected: @_";
+ };
+ $bc->adapter->push([qw(some path here)]);
+
+=cut
+
+sub breadcrumb(&@) {
+	my %args = (on_activate => @_);
+	my %parent_args = map {; $_ => delete $args{'parent:' . $_} } map /^parent:(.*)/ ? $1 : (), keys %args;
+	my $w = Tickit::Widget::Breadcrumb->new(
+		%args
+	);
 	local @WIDGET_ARGS = (@WIDGET_ARGS, %parent_args);
 	apply_widget($w);
 	$w

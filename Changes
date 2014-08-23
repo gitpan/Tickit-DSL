@@ -1,5 +1,13 @@
 Revision history for Tickit-DSL
 
+0.017     2014-08-23 02:45:55+01:00 Europe/London
+	Features:
+	* breadcrumb support (Tickit::Widget::Breadcrumb)
+	* tree data parameter now handled by Tickit::Widget::Tree
+
+	Bugs fixed:
+	* Stray debugging line on table widget
+
 0.016     2014-08-20 21:20:28+01:00 Europe/London
 	Features:
 	* tree accepts data parameter

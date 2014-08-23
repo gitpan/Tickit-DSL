@@ -16,7 +16,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.016
+Version 0.017
 
 =head1 SYNOPSIS
 
@@ -484,6 +484,15 @@ Tabular rendering.
   { label => 'ID', width => 9, align => 'right' },
   { label => 'Description' },
  ];
+
+=head2 breadcrumb
+
+Provides a "breadcrumb trail".
+
+ my $bc = breadcrumb {
+  warn "crumb selected: @_";
+ };
+ $bc->adapter->push([qw(some path here)]);
 
 =head2 placeholder
 
