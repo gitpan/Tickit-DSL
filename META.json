@@ -54,7 +54,7 @@
             "Tickit::Widget::SparkLine" : "0.104",
             "Tickit::Widget::Statusbar" : "0.003",
             "Tickit::Widget::Tabbed" : "0.010",
-            "Tickit::Widget::Table" : "0.202",
+            "Tickit::Widget::Table" : "0.205",
             "Tickit::Widget::Tree" : "0.108",
             "Tickit::Widgets" : "0.19",
             "parent" : "0"
@@ -78,6 +78,6 @@
       },
       "homepage" : "http://search.cpan.org/dist/Tickit-DSL/"
    },
-   "version" : "0.018"
+   "version" : "0.019"
 }
 

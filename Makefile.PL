@@ -38,7 +38,7 @@ my %WriteMakefileArgs = (
     "Tickit::Widget::SparkLine" => "0.104",
     "Tickit::Widget::Statusbar" => "0.003",
     "Tickit::Widget::Tabbed" => "0.010",
-    "Tickit::Widget::Table" => "0.202",
+    "Tickit::Widget::Table" => "0.205",
     "Tickit::Widget::Tree" => "0.108",
     "Tickit::Widgets" => "0.19",
     "parent" => 0
@@ -50,7 +50,7 @@ my %WriteMakefileArgs = (
     "Test::CheckDeps" => "0.010",
     "Test::More" => "0.98"
   },
-  "VERSION" => "0.018",
+  "VERSION" => "0.019",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -81,7 +81,7 @@ my %FallbackPrereqs = (
   "Tickit::Widget::SparkLine" => "0.104",
   "Tickit::Widget::Statusbar" => "0.003",
   "Tickit::Widget::Tabbed" => "0.010",
-  "Tickit::Widget::Table" => "0.202",
+  "Tickit::Widget::Table" => "0.205",
   "Tickit::Widget::Tree" => "0.108",
   "Tickit::Widgets" => "0.19",
   "parent" => 0

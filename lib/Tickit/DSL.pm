@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw(Exporter);
 
-our $VERSION = '0.018';
+our $VERSION = '0.019';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.018
+Version 0.019
 
 =head1 SYNOPSIS
 
