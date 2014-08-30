@@ -57,8 +57,9 @@ eval { $v .= pmver('List::UtilsBy','any version') };
 eval { $v .= pmver('Test::CheckDeps','0.010') };
 eval { $v .= pmver('Test::More','0.98') };
 eval { $v .= pmver('Tickit','0.46') };
+eval { $v .= pmver('Tickit::Async','any version') };
 eval { $v .= pmver('Tickit::Console','0.06') };
-eval { $v .= pmver('Tickit::Widget::Breadcrumb','0.001') };
+eval { $v .= pmver('Tickit::Widget::Breadcrumb','0.002') };
 eval { $v .= pmver('Tickit::Widget::Decoration','0.001') };
 eval { $v .= pmver('Tickit::Widget::FileViewer','0.002') };
 eval { $v .= pmver('Tickit::Widget::FloatBox','0.02') };
@@ -69,12 +70,12 @@ eval { $v .= pmver('Tickit::Widget::Progressbar','0.002') };
 eval { $v .= pmver('Tickit::Widget::ScrollBox','0.01') };
 eval { $v .= pmver('Tickit::Widget::Scroller','0.12') };
 eval { $v .= pmver('Tickit::Widget::SegmentDisplay','0.01') };
-eval { $v .= pmver('Tickit::Widget::SparkLine','0.001') };
+eval { $v .= pmver('Tickit::Widget::SparkLine','0.104') };
 eval { $v .= pmver('Tickit::Widget::Statusbar','0.003') };
 eval { $v .= pmver('Tickit::Widget::Tabbed','0.010') };
 eval { $v .= pmver('Tickit::Widget::Table','0.202') };
-eval { $v .= pmver('Tickit::Widget::Tree','0.107') };
-eval { $v .= pmver('Tickit::Widgets','0.12') };
+eval { $v .= pmver('Tickit::Widget::Tree','0.108') };
+eval { $v .= pmver('Tickit::Widgets','0.19') };
 eval { $v .= pmver('parent','any version') };
 
 

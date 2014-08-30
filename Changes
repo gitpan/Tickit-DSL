@@ -1,5 +1,11 @@
 Revision history for Tickit-DSL
 
+0.018     2014-08-30 02:32:34+01:00 Europe/London
+	No new features.
+
+	Dependencies:
+	* Updated some module versions
+
 0.017     2014-08-23 02:45:55+01:00 Europe/London
 	Features:
 	* breadcrumb support (Tickit::Widget::Breadcrumb)

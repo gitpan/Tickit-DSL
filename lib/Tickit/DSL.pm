@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw(Exporter);
 
-our $VERSION = '0.017';
+our $VERSION = '0.018';
 
 =head1 NAME
 
@@ -13,7 +13,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.017
+Version 0.018
 
 =head1 SYNOPSIS
 
@@ -114,7 +114,7 @@ use Tickit::Widget::Statusbar;
 use Tickit::Widget::Tabbed;
 use Tickit::Widget::Table;
 use Tickit::Widget::Tree;
-use Tickit::Widget::VBox;
+use Tickit::Widget::VBox 0.46; # the hypothesis is that this may help catch old Tickit installs
 use Tickit::Widget::VSplit;
 
 use List::UtilsBy qw(extract_by);
