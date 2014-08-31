@@ -16,7 +16,7 @@ Tickit::DSL - domain-specific language for Tickit terminal apps
 
 =head1 VERSION
 
-Version 0.020
+Version 0.021
 
 =head1 SYNOPSIS
 
